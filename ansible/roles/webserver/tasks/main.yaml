@@ -17,3 +17,7 @@
       name: '{{ user }}'
       groups: docker
       append: yes
+  - name: Install Docker compose
+    apt:
+      name: docker-compose
+      update_cache: yes
