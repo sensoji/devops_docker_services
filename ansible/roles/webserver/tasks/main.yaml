@@ -4,3 +4,16 @@
     shell:
       chdir: /home/ubuntu
       cmd: curl -fsSL https://get.docker.com -o get-docker.sh
+  - name: Execute docker shell script
+    shell:
+      chdir: /home/ubuntu
+      cmd: sh get-docker.sh
+  - name: Ensure docker group is created
+    group:
+      name: docker
+      state: present
+  - name: Add '{{ user }}' user to group docker
+    user:
+      name: '{{ user }}'
+      groups: docker
+      append: yes
