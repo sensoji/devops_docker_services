@@ -19,11 +19,12 @@ pipeline {
                 }
             }
             steps {
-                dir('terraform')
-                sh """
-                terraform init
-                terraform apply --auto-approve
-                """
+                dir('terraform') {
+                    sh """
+                    terraform init
+                    terraform apply --auto-approve
+                    """
+                }
             }
         }
         stage ('Terraform - Destroy') {
@@ -33,10 +34,11 @@ pipeline {
                 }
             }
             steps {
-                dir('terraform')
-                sh """
-                terraform destroy --auto-approve
-                """
+                dir('terraform') {
+                    sh """
+                    terraform destroy --auto-approve
+                    """
+                }
             }
         }
     }
