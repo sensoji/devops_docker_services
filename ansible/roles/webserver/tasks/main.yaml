@@ -24,7 +24,7 @@
   - name: Create docker folder in ubuntu home folder along with subdirectories
     file:
       path: "{{ item }}"
-      sate: directory
+      state: directory
       owner: "{{ user }}"
       group: "{{ user }}"
       mode: 0775
