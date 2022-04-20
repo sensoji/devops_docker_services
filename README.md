@@ -25,5 +25,6 @@ The code here configures:
 
 - Installs Docker
 - Installs Docker Compose
+- Creates the relevant directories to store the various files
 - Copies across the docker files as well as the index and api files for the services
 - Starts Docker compose in the background
