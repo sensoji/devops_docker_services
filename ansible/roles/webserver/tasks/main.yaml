@@ -55,3 +55,7 @@
       mode: 0755
     with_items:
       ['api.py', 'requirements.txt', 'Dockerfile']
+  - name: Execute docker compose to build services
+    shell:
+      chdir: /home/ubuntu/docker
+      cmd: docker-compose up
