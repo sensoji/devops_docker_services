@@ -10,9 +10,9 @@ pipeline {
         choice( name: 'ACTION', 
                 choices:['plan', 'apply', 'destroy'], 
                 description: 'Run terraform plan / apply / destroy')
-        // choice( name: 'CONFIG',
-        //         choices: ['No', 'Yes']
-        //         description: 'Run Ansible config scripts')
+        choice( name: 'CONFIG',
+                choices: ['No', 'Yes']
+                description: 'Run Ansible config scripts')
     }
     stages {
         stage ('Terraform - Apply') {
@@ -30,9 +30,9 @@ pipeline {
                 }
                 script {
                     serverip = sh (
-                    script: 'terraform output -raw webserver_ip',
-                    returnStdout: true
-                )
+                        script: 'aws ec2 describe-instances --filter "Name=tag:Name,Values=webserver-test-1" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text',
+                        returnStdout: true
+                    ).trim()
                 echo "The server IP is ${serverip}"
                 }
             }
@@ -51,19 +51,22 @@ pipeline {
                 }
             }
         }
-        // stage ('Ansible - Configure') {
-        //     when {
-        //         expression {
-        //             params.CONFIG == 'Yes'
-        //         }
-        //     }
-        //     steps {
-        //         dir('ansible') {
-        //             sh """
-        //             rm -f hosts
-        //             """
-        //         }
-        //     }
-        // }
+        stage ('Ansible - Configure') {
+            when {
+                expression {
+                    params.CONFIG == 'Yes'
+                }
+            }
+            steps {
+                dir('ansible') {
+                    sh """
+                    rm -f hosts
+                    echo "[webserver]\n ${serverip}" > hosts
+                    while ! nc -z -w 5 ${serverip} 22; do echo "Waiting for server..."; sleep 5; done
+                    ansible-playbook -i hosts deploy.yaml
+                    """
+                }
+            }
+        }
     }
 }
