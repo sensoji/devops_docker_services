@@ -10,6 +10,9 @@ pipeline {
         choice( name: 'ACTION', 
                 choices:['plan', 'apply', 'destroy'], 
                 description: 'Run terraform plan / apply / destroy')
+        choice( name: 'CONFIG',
+                choices: ['No', 'Yes']
+                decription: 'Run Ansible config scripts')
     }
     stages {
         stage ('Terraform - Apply') {
@@ -26,6 +29,12 @@ pipeline {
                     """
                 }
             }
+            script {
+                serverip = sh (
+                    script: 'terraform output webserver_ip'
+                )
+            echo "The server IP is ${serverip}"
+            }
         }
         stage ('Terraform - Destroy') {
             when {
@@ -41,5 +50,19 @@ pipeline {
                 }
             }
         }
+        // stage ('Ansible - Configure') {
+        //     when {
+        //         expression {
+        //             params.CONFIG == 'Yes'
+        //         }
+        //     }
+        //     steps {
+        //         dir('ansible') {
+        //             sh """
+        //             rm -f hosts
+        //             """
+        //         }
+        //     }
+        // }
     }
 }

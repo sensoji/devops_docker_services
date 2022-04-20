@@ -1,0 +1,6 @@
+---
+
+  - name: CURL docker shell script
+    shell:
+      chdir: /home/ubuntu
+      cmd: curl -fsSL https://get.docker.com -o get-docker.sh
