@@ -54,4 +54,4 @@
       group: "{{ user }}"
       mode: 0755
     with_items:
-      ['api.py', 'requirements.py', 'Dockerfile']
+      ['api.py', 'requirements.txt', 'Dockerfile']
