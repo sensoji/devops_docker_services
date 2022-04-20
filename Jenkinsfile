@@ -32,6 +32,12 @@ pipeline {
                     params.ACTION == 'destroy'
                 }
             }
+            steps {
+                dir('terraform')
+                sh """
+                terraform destroy --auto-approve
+                """
+            }
         }
     }
 }
