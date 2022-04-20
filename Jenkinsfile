@@ -29,10 +29,15 @@ pipeline {
                     """
                 }
                 script {
-                    serverip = sh (
-                        script: 'aws ec2 describe-instances --filter "Name=tag:Name,Values=webserver-test-1" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text',
-                        returnStdout: true
-                    ).trim()
+                    dir('terraform'){
+                        server = sh(
+                            script: 'terraform output -raw webserver_ip',
+                            returnStdout: true)
+                    }
+                    // serverip = sh (
+                    //     script: 'aws ec2 describe-instances --filter "Name=tag:Name,Values=webserver-test-1" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text',
+                    //     returnStdout: true
+                    // ).trim()
                 echo "The server IP is ${serverip}"
                 }
             }
