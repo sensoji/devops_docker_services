@@ -5,7 +5,7 @@ def username = "ubuntu"
 // pipeline
 pipeline {
     agent any
-    triggers {}
+    //triggers {}
     parameters {
         choice( name: 'ACTION', 
                 choices:['plan', 'apply', 'destroy'], 
