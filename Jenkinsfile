@@ -11,7 +11,7 @@ pipeline {
                 choices:['plan', 'apply', 'destroy'], 
                 description: 'Run terraform plan / apply / destroy')
         choice( name: 'CONFIG',
-                choices: ['No', 'Yes']
+                choices: ['No', 'Yes'],
                 description: 'Run Ansible config scripts')
     }
     stages {
