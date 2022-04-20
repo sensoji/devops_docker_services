@@ -21,7 +21,7 @@ variable "sg_rules" {
         "website" = {
             type = "ingress"
             from_port = 5000
-            to_port = 5000
+            to_port = 5001
             protocol = "tcp"
             cidr = ["0.0.0.0/0"]
         },
