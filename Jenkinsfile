@@ -28,6 +28,13 @@ pipeline {
                     terraform plan
                     """
                 }
+                script {
+                    serverip = sh (
+                        script: 'aws ec2 describe-instances --filter "Name=tag:Name,Values=webserver-test-1" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text',
+                        returnStdout: true
+                    ).trim()
+                echo "The server IP is ${serverip}"
+                }
             }
         }
         stage ('Terraform - Apply') {
