@@ -15,6 +15,21 @@ pipeline {
                 description: 'Run Ansible config scripts')
     }
     stages {
+        stage ('Terraform - Plan') {
+            when {
+                expression {
+                    params.ACTION == 'plan'
+                }
+            }
+            steps {
+                dir('terraform') {
+                    sh """
+                    terraform init
+                    terraform plan
+                    """
+                }
+            }
+        }
         stage ('Terraform - Apply') {
             when {
                 expression {
