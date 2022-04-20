@@ -30,7 +30,8 @@ pipeline {
                 }
                 script {
                     serverip = sh (
-                    script: 'terraform output webserver_ip'
+                    script: 'terraform output webserver_ip',
+                    returnStdout: true
                 )
                 echo "The server IP is ${serverip}"
                 }
