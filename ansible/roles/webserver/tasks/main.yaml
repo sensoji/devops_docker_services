@@ -21,3 +21,37 @@
     apt:
       name: docker-compose
       update_cache: yes
+  - name: Create docker folder in ubuntu home folder along with subdirectories
+    file:
+      path: "{{ item }}"
+      sate: directory
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      mode: 0775
+    loop:
+      - /home/ubuntu/docker
+      - /home/ubuntu/docker/products
+      - /home/ubuntu/docker/website
+  - name: Copy Docker-compose file to docker folder
+    copy:
+      src: files/docker-compose.yaml
+      dest: /home/ubuntu/docker
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      mode: 0755
+  - name: Copy index file to docker/website folder
+    copy:
+      src: files/index.php
+      dest: /home/ubuntu/docker/website
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      mode: 0755
+  - name: Copy dockerfile, requirements and api file to docker/products folder
+    copy:
+      src: files/{{item}}
+      dest: /home/ubuntu/docker/products
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      mode: 0755
+    with_items:
+      ['api.py', 'requirements.py', 'Dockerfile']

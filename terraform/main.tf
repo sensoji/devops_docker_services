@@ -18,6 +18,13 @@ variable "sg_rules" {
             protocol = "tcp"
             cidr = ["0.0.0.0/0"]
         },
+        "website" = {
+            type = "ingress"
+            from_port = 5000
+            to_port = 5000
+            protocol = "tcp"
+            cidr = ["0.0.0.0/0"]
+        },
         "out_all" = {
             type = "egress"
             from_port = 0
