@@ -28,12 +28,12 @@ pipeline {
                     terraform apply --auto-approve
                     """
                 }
-            }
-            script {
-                serverip = sh (
+                script {
+                    serverip = sh (
                     script: 'terraform output webserver_ip'
                 )
-            echo "The server IP is ${serverip}"
+                echo "The server IP is ${serverip}"
+                }
             }
         }
         stage ('Terraform - Destroy') {
