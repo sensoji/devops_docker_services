@@ -1,5 +1,5 @@
 // Vars
-def derverip
+def serverip = ""
 def username = "ubuntu"
 
 // pipeline
@@ -28,18 +28,18 @@ pipeline {
                     terraform plan
                     """
                 }
-                script {
-                    dir('terraform'){
-                        serverip = sh(
-                            script: 'terraform output -raw webserver_ip',
-                            returnStdout: true)
-                    }
-                    // serverip = sh (
-                    //     script: 'aws ec2 describe-instances --filter "Name=tag:Name,Values=webserver-test-1" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text',
-                    //     returnStdout: true
-                    // ).trim()
-                echo "The server IP is ${serverip}"
-                }
+                // script {
+                //     dir('terraform'){
+                //         serverip = sh(
+                //             script: 'terraform output -raw webserver_ip',
+                //             returnStdout: true)
+                //     }
+                //     // serverip = sh (
+                //     //     script: 'aws ec2 describe-instances --filter "Name=tag:Name,Values=webserver-test-1" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text',
+                //     //     returnStdout: true
+                //     // ).trim()
+                // echo "The server IP is ${serverip}"
+                // }
             }
         }
         stage ('Terraform - Apply') {
@@ -56,10 +56,11 @@ pipeline {
                     """
                 }
                 script {
-                    serverip = sh (
-                        script: 'aws ec2 describe-instances --filter "Name=tag:Name,Values=webserver-test-1" --query "Reservations[*].Instances[*].PublicIpAddress" --output=text',
-                        returnStdout: true
-                    ).trim()
+                    dir('terraform'){
+                        serverip = sh(
+                            script: 'terraform output -raw webserver_ip',
+                            returnStdout: true)
+                    }
                 echo "The server IP is ${serverip}"
                 }
             }
