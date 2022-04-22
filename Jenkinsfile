@@ -30,7 +30,7 @@ pipeline {
                 }
                 script {
                     dir('terraform'){
-                        server = sh(
+                        serverip = sh(
                             script: 'terraform output -raw webserver_ip',
                             returnStdout: true)
                     }
