@@ -1,5 +1,4 @@
 ---
-
   - name: Check if Docker is installed
     cmd: docker -v
     register: docker_installed
