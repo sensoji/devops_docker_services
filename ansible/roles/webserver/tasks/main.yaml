@@ -2,7 +2,7 @@
   - name: Check if Docker is installed
     cmd: docker -v
     register: docker_installed
-    ignore_errors: true
+    ignore_errors: True
   - name: CURL docker shell script
     shell:
       chdir: /home/ubuntu
