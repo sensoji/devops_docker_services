@@ -1,13 +1,19 @@
 ---
 
+  - name: Check if Docker is installed
+    cmd: docker -v
+    register: docker_installed
+    ignore_errors: true
   - name: CURL docker shell script
     shell:
       chdir: /home/ubuntu
       cmd: curl -fsSL https://get.docker.com -o get-docker.sh
+    when: docker_installed.failed
   - name: Execute docker shell script
     shell:
       chdir: /home/ubuntu
       cmd: sh get-docker.sh
+    when: docker_installed.failed
   - name: Ensure docker group is created
     group:
       name: docker
