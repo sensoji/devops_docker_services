@@ -1,6 +1,6 @@
 ---
   - name: Check if Docker is installed
-    cmd: "docker -v"
+    commmand: "docker --version"
     register: docker_installed
     ignore_errors: True
   - name: CURL docker shell script
